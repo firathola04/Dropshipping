@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique Admin · DropManage</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: white !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 0.8rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--emerald-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .navbar-brand i {
+      color: var(--emerald-500);
+      font-size: 1.8rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: white;
+      min-height: calc(100vh - 70px);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+      border-right: 1px solid #edf2f7;
+    }
+
+    .sidebar .nav-link {
+      color: #4a5568;
+      padding: 0.8rem 1.5rem;
+      margin: 0.2rem 1rem;
+      border-radius: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+    }
+
+    .sidebar .nav-link:hover {
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    /* Boutons */
+    .btn-emerald {
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-emerald:hover {
+      background: var(--emerald-700);
+      color: white;
+    }
+
+    .btn-outline-emerald {
+      border: 1px solid var(--emerald-300);
+      color: var(--emerald-800);
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      background: transparent;
+    }
+
+    .btn-outline-emerald:hover {
+      background: var(--emerald-50);
+      border-color: var(--emerald-500);
+      color: var(--emerald-900);
+    }
+
+    .badge-emerald {
+      background: var(--emerald-100);
+      color: var(--emerald-800);
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+    }
+
+    /* Cartes produits */
+    .product-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      transition: 0.2s;
+      height: 100%;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--emerald-300);
+      box-shadow: 0 10px 25px -8px rgba(5, 150, 105, 0.2);
+    }
+
+    .product-img-wrapper {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .product-status.active {
+      background: var(--emerald-100);
+      color: var(--emerald-800);
+    }
+
+    .product-status.draft {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .product-body {
+      padding: 1.2rem;
+    }
+
+    .product-title {
+      font-weight: 700;
+      color: var(--emerald-950);
+      margin-bottom: 0.3rem;
+    }
+
+    .product-price {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--emerald-700);
+    }
+
+    .product-sku {
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+
+    .product-stock {
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .stock-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .stock-high { background: #10b981; }
+    .stock-medium { background: #f59e0b; }
+    .stock-low { background: #ef4444; }
+
+    /* Filtres */
+    .filters-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.2rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* Stats boutique */
+    .shop-stat {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .shop-stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--emerald-700);
+    }
+
+    /* Pour éviter tout soulignement */
+    a, a:hover, a:focus, a:active, button {
+      text-decoration: none !important;
+      outline: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Admin -->
+<nav class="navbar">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem"></i>
+      <span>DropManage Admin</span>
+    </a>
+    <div class="d-flex gap-3">
+      <span class="badge-emerald"><i class="bi bi-shop me-1"></i>Boutique</span>
+      <a href="../index.html" class="btn btn-outline-emerald btn-sm"><i class="bi bi-box-arrow-right"></i> Retour site</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-2 p-0 sidebar">
+      <div class="py-4">
+        <a href="tableau_bord.html" class="nav-link">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="G_catalogue.html" class="nav-link">
+          <i class="bi bi-box-seam"></i> Catalogue
+        </a>
+        <a href="suivi_commande.html" class="nav-link">
+          <i class="bi bi-truck"></i> Commandes
+        </a>
+        <a href="#" class="nav-link active">
+          <i class="bi bi-shop"></i> Boutique
+        </a>
+        <a href="G_fournisseur.html" class="nav-link">
+          <i class="bi bi-people"></i> Fournisseurs
+        </a>
+        <a href="analyse_rapport.html" class="nav-link">
+          <i class="bi bi-graph-up"></i> Rapports
+        </a>
+        <a href="parametre_sys.html" class="nav-link">
+          <i class="bi bi-gear"></i> Paramètres
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-10 p-4">
+      <!-- Header boutique -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 class="fw-bold mb-1">Gestion de la boutique</h4>
+          <p class="text-secondary">Gérez l'apparence et les produits de votre vitrine</p>
+        </div>
+        <div>
+          <a href="shop.html" target="_blank" class="btn btn-outline-emerald me-2"><i class="bi bi-eye"></i> Voir la boutique</a>
+          <a href="#" class="btn btn-emerald"><i class="bi bi-pencil-square"></i> Personnaliser</a>
+        </div>
+      </div>
+
+      <!-- Stats boutique -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="shop-stat">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-eye fs-4" style="color: var(--emerald-500);"></i>
+              <div>
+                <p class="text-secondary mb-0 small">Vues aujourd'hui</p>
+                <span class="shop-stat-number">1,284</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="shop-stat">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-cart3 fs-4" style="color: var(--emerald-500);"></i>
+              <div>
+                <p class="text-secondary mb-0 small">Taux conversion</p>
+                <span class="shop-stat-number">3.2%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="shop-stat">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-box fs-4" style="color: var(--emerald-500);"></i>
+              <div>
+                <p class="text-secondary mb-0 small">Produits actifs</p>
+                <span class="shop-stat-number">47</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="shop-stat">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-star fs-4" style="color: var(--emerald-500);"></i>
+              <div>
+                <p class="text-secondary mb-0 small">Avis clients</p>
+                <span class="shop-stat-number">4.8</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtres et recherche -->
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <div class="filters-card">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <select class="form-select">
+                  <option>Toutes les catégories</option>
+                  <option>Audio</option>
+                  <option>Montres</option>
+                  <option>Photo</option>
+                  <option>Enceintes</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <select class="form-select">
+                  <option>Tous les statuts</option>
+                  <option>Publié</option>
+                  <option>Brouillon</option>
+                  <option>En rupture</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                  <input type="text" class="form-control border-start-0" placeholder="Rechercher un produit...">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="d-flex gap-2 justify-content-end">
+            <a href="#" class="btn btn-outline-emerald"><i class="bi bi-arrow-up-down"></i> Trier</a>
+            <a href="#" class="btn btn-emerald"><i class="bi bi-plus-lg"></i> Nouveau produit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grille produits -->
+      <div class="row g-4">
+        <!-- Produit 1 -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&q=80" alt="produit">
+              <span class="product-status active">Publié</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Casque Focus S3</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: CAS-FOCUS-01</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">59 900 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-high"></span>
+                  <span class="text-secondary">47</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 2 -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80" alt="produit">
+              <span class="product-status active">Publié</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Chrono Émeraude</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: MONT-EMER-02</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">129 500 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-medium"></span>
+                  <span class="text-secondary">12</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 3 -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1600086827875-a63b01f1335c?w=400&q=80" alt="produit">
+              <span class="product-status active">Publié</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Enceinte Mini Go</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: ENC-MINI-03</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">29 900 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-high"></span>
+                  <span class="text-secondary">103</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 4 -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=80" alt="produit">
+              <span class="product-status active">Publié</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Caméra Pocket 4K</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: CAM-POCKET-04</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">89 900 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-low"></span>
+                  <span class="text-secondary">8</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 5 (Brouillon) -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80" alt="produit">
+              <span class="product-status draft">Brouillon</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Montre Connectée X1</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: MONT-X1-05</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">89 900 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-medium"></span>
+                  <span class="text-secondary">0</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 6 -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80" alt="produit">
+              <span class="product-status active">Publié</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Casque Audio Pro</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: CAS-PRO-06</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">79 900 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-high"></span>
+                  <span class="text-secondary">64</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 7 -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400&q=80" alt="produit">
+              <span class="product-status active">Publié</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Montre Sport</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: MONT-SPORT-07</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">109 900 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-medium"></span>
+                  <span class="text-secondary">23</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 8 -->
+        <div class="col-md-3">
+          <div class="product-card">
+            <div class="product-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=400&q=80" alt="produit">
+              <span class="product-status draft">Brouillon</span>
+            </div>
+            <div class="product-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="product-title">Enceinte Bluetooth</h6>
+                <div class="dropdown">
+                  <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Modifier</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Aperçu</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-copy me-2"></i>Dupliquer</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archiver</a></li>
+                  </ul>
+                </div>
+              </div>
+              <span class="product-sku">REF: ENC-BT-08</span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="product-price">39 900 FCFA</span>
+                <span class="product-stock">
+                  <span class="stock-indicator stock-low"></span>
+                  <span class="text-secondary">3</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Forcer l'absence de soulignement sur tous les liens
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+      link.style.textDecoration = 'none';
+    });
+  });
+</script>
+</body>
+</html>

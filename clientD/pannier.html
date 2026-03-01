@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Panier · DropManage</title>
+  <!-- Bootstrap 5 -->
+  <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/fontawesome-free-6.7.2-web/css/all.min.css">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--emerald-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-emerald {
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 50px;
+      padding: 0.6rem 1.8rem;
+      font-weight: 600;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .btn-emerald:hover {
+      background: var(--emerald-700);
+      color: white;
+    }
+
+    .btn-outline-emerald {
+      border: 1.5px solid var(--emerald-300);
+      color: var(--emerald-700);
+      border-radius: 50px;
+      padding: 0.6rem 1.8rem;
+      font-weight: 600;
+      background: transparent;
+    }
+
+    .cart-item {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+      transition: 0.2s;
+    }
+
+    .cart-item:hover {
+      border-color: var(--emerald-300);
+      box-shadow: 0 10px 25px -8px rgba(5, 150, 105, 0.1);
+    }
+
+    .cart-item-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      object-fit: cover;
+    }
+
+    .quantity-selector {
+      width: 120px;
+      border: 1px solid #e2e8f0;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .quantity-btn {
+      width: 35px;
+      height: 35px;
+      background: white;
+      border: none;
+      font-weight: 600;
+      color: var(--emerald-700);
+    }
+
+    .quantity-input {
+      width: 50px;
+      text-align: center;
+      border: none;
+      border-left: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      height: 35px;
+    }
+
+    .cart-summary {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      position: sticky;
+      top: 100px;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--emerald-700);
+      margin-top: 1rem;
+    }
+
+    .promo-code {
+      background: #f1f5f9;
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem"></i>
+      <span>DropManage</span>
+    </a>
+    <div class="d-flex gap-2">
+      <a href="compte_client.html" class="btn btn-outline-emerald">
+        <i class="bi bi-person"></i> Mon compte
+      </a>
+      <a href="paiement.html" class="btn btn-emerald">
+        <i class="bi bi-credit-card"></i> Commander
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Fil d'Ariane -->
+<div class="container mt-4">
+  <nav style="--bs-breadcrumb-divider: '>';">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="../index.html" class="text-secondary text-decoration-none">Accueil</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Mon panier</li>
+    </ol>
+  </nav>
+</div>
+
+<!-- Contenu panier -->
+<section class="py-4">
+  <div class="container">
+    <h2 class="fw-bold mb-4">Mon panier (3 articles)</h2>
+
+    <div class="row">
+      <!-- Liste articles -->
+      <div class="col-lg-8">
+        <!-- Article 1 -->
+        <div class="cart-item">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=200&q=80" class="cart-item-image" alt="produit">
+            </div>
+            <div class="col-md-4">
+              <h6 class="fw-bold">Casque Bluetooth Focus S3</h6>
+              <p class="small text-secondary mb-1">Couleur: Noir</p>
+              <a href="#" class="text-danger small text-decoration-none" onclick="return confirm('Supprimer cet article ?')">
+                <i class="bi bi-trash"></i> Supprimer
+              </a>
+            </div>
+            <div class="col-md-3">
+              <div class="quantity-selector">
+                <button class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                <input type="text" class="quantity-input" value="1" readonly>
+                <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+              </div>
+            </div>
+            <div class="col-md-3 text-end">
+              <span class="fw-bold fs-5" style="color: var(--emerald-700);">59 900 FCFA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="cart-item">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80" class="cart-item-image" alt="produit">
+            </div>
+            <div class="col-md-4">
+              <h6 class="fw-bold">Chrono Émeraude</h6>
+              <p class="small text-secondary mb-1">Couleur: Argent</p>
+              <a href="#" class="text-danger small text-decoration-none" onclick="return confirm('Supprimer cet article ?')">
+                <i class="bi bi-trash"></i> Supprimer
+              </a>
+            </div>
+            <div class="col-md-3">
+              <div class="quantity-selector">
+                <button class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                <input type="text" class="quantity-input" value="1" readonly>
+                <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+              </div>
+            </div>
+            <div class="col-md-3 text-end">
+              <span class="fw-bold fs-5" style="color: var(--emerald-700);">129 500 FCFA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article 3 -->
+        <div class="cart-item">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <img src="https://images.unsplash.com/photo-1600086827875-a63b01f1335c?w=200&q=80" class="cart-item-image" alt="produit">
+            </div>
+            <div class="col-md-4">
+              <h6 class="fw-bold">Enceinte Mini Go</h6>
+              <p class="small text-secondary mb-1">Couleur: Bleu</p>
+              <a href="#" class="text-danger small text-decoration-none" onclick="return confirm('Supprimer cet article ?')">
+                <i class="bi bi-trash"></i> Supprimer
+              </a>
+            </div>
+            <div class="col-md-3">
+              <div class="quantity-selector">
+                <button class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                <input type="text" class="quantity-input" value="2" readonly>
+                <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+              </div>
+            </div>
+            <div class="col-md-3 text-end">
+              <span class="fw-bold fs-5" style="color: var(--emerald-700);">59 800 FCFA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+          <a href="../administrateur/boutique.html" class="btn btn-outline-emerald">
+            <i class="bi bi-arrow-left"></i> Continuer mes achats
+          </a>
+          <a href="#" class="btn btn-outline-danger" onclick="return confirm('Vider le panier ?')">
+            <i class="bi bi-cart-x"></i> Vider le panier
+          </a>
+        </div>
+      </div>
+
+      <!-- Résumé commande -->
+      <div class="col-lg-4">
+        <div class="cart-summary">
+          <h5 class="fw-bold mb-4">Récapitulatif</h5>
+          
+          <div class="summary-line">
+            <span>Sous-total (3 articles)</span>
+            <span class="fw-bold">249 200 FCFA</span>
+          </div>
+
+          <div class="summary-line">
+            <span>Livraison</span>
+            <span class="fw-bold">3 500 FCFA</span>
+          </div>
+
+          <!-- Code promo -->
+          <div class="promo-code">
+            <label class="form-label fw-medium">Code promo</label>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Ex: BIENVENUE10">
+              <button class="btn btn-outline-emerald">Appliquer</button>
+            </div>
+          </div>
+
+          <div class="total-line">
+            <span>Total TTC</span>
+            <span>252 700 FCFA</span>
+          </div>
+
+          <p class="small text-secondary mt-2">
+            <i class="bi bi-shield-check text-emerald-600"></i> Paiement 100% sécurisé
+          </p>
+
+          <a href="paiement.html" class="btn btn-emerald w-100 py-3 mt-3">
+            <i class="bi bi-credit-card"></i> Procéder au paiement
+          </a>
+
+          <div class="text-center mt-3">
+            <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/visa.svg" alt="visa" width="50" class="me-2">
+            <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/mastercard.svg" alt="mastercard" width="50" class="me-2">
+            <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/paypal.svg" alt="paypal" width="50" class="me-2">
+            <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/orange-money.svg" alt="orange money" width="50">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer simplifié -->
+<footer class="bg-dark text-white-50 py-4 mt-5">
+  <div class="container text-center">
+    <p class="small mb-0">&copy; 2025 DropManage. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<script>
+  function updateQuantity(btn, change) {
+    const container = btn.closest('.quantity-selector');
+    const input = container.querySelector('.quantity-input');
+    let value = parseInt(input.value);
+    value = value + change;
+    if (value >= 1 && value <= 10) {
+      input.value = value;
+      // Ici vous pouvez ajouter une fonction pour mettre à jour le prix total
+    }
+  }
+</script>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

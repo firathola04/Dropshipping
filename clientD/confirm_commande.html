@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation · DropManage</title>
+  <!-- Bootstrap 5 -->
+  <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/fontawesome-free-6.7.2-web/css/all.min.css">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--emerald-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .confirmation-card {
+      background: white;
+      border-radius: 40px;
+      padding: 3rem;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      background: var(--emerald-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      font-size: 3rem;
+      color: var(--emerald-700);
+    }
+
+    .order-number {
+      background: var(--emerald-50);
+      border: 1px dashed var(--emerald-300);
+      border-radius: 50px;
+      padding: 0.8rem;
+      display: inline-block;
+      margin: 1rem 0;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      text-align: left;
+      margin: 2rem 0;
+    }
+
+    .info-item {
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem"></i>
+      <span>DropManage</span>
+    </a>
+    <a href="../administrateur/boutique.html" class="btn btn-outline-emerald">
+      <i class="bi bi-shop"></i> Continuer mes achats
+    </a>
+  </div>
+</nav>
+
+<!-- Contenu confirmation -->
+<section class="py-5">
+  <div class="container">
+    <div class="confirmation-card">
+      <div class="success-icon">
+        <i class="bi bi-check-lg"></i>
+      </div>
+      
+      <h2 class="fw-bold mb-2">Merci pour votre commande !</h2>
+      <p class="text-secondary">Votre commande a été confirmée avec succès</p>
+
+      <div class="order-number">
+        <span class="text-secondary me-2">Numéro de commande :</span>
+        <span class="fw-bold fs-5">#CMD-2025-048</span>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <p class="small text-secondary mb-1">Date</p>
+          <p class="fw-bold mb-0">17 Février 2025</p>
+        </div>
+        <div class="info-item">
+          <p class="small text-secondary mb-1">Total</p>
+          <p class="fw-bold mb-0">252 700 FCFA</p>
+        </div>
+        <div class="info-item">
+          <p class="small text-secondary mb-1">Paiement</p>
+          <p class="fw-bold mb-0">Carte bancaire</p>
+        </div>
+        <div class="info-item">
+          <p class="small text-secondary mb-1">Livraison</p>
+          <p class="fw-bold mb-0">Standard (3-5 jours)</p>
+        </div>
+      </div>
+
+      <p class="text-secondary small mb-4">
+        Un email de confirmation a été envoyé à <span class="fw-bold">jean.dupont@email.com</span>
+      </p>
+
+      <div class="d-flex gap-3 justify-content-center">
+        <a href="../administrateur/suivi_commande.html" class="btn btn-emerald px-4">
+          <i class="bi bi-truck"></i> Suivre ma commande
+        </a>
+        <a href="compte_client.html" class="btn btn-outline-emerald px-4">
+          <i class="bi bi-person"></i> Mon compte
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer simplifié -->
+<footer class="bg-dark text-white-50 py-4 mt-5">
+  <div class="container text-center">
+    <p class="small mb-0">&copy; 2025 DropManage. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

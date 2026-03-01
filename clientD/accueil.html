@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DropManage · Votre boutique dropshipping</title>
+  <!-- Bootstrap 5 -->
+  <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/fontawesome-free-6.7.2-web/css/all.min.css">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1e293b;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: rgba(255,255,255,0.95) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--emerald-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .navbar-brand i {
+      color: var(--emerald-500);
+      font-size: 2rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #334155 !important;
+      padding: 0.5rem 1rem !important;
+      transition: 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--emerald-600) !important;
+    }
+
+    .btn-emerald {
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 50px;
+      padding: 0.6rem 1.8rem;
+      font-weight: 600;
+      border: none;
+      transition: 0.2s;
+    }
+
+    .btn-emerald:hover {
+      background: var(--emerald-700);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -8px var(--emerald-600);
+    }
+
+    .btn-outline-emerald {
+      border: 1.5px solid var(--emerald-300);
+      color: var(--emerald-700);
+      border-radius: 50px;
+      padding: 0.6rem 1.8rem;
+      font-weight: 600;
+      background: transparent;
+      transition: 0.2s;
+    }
+
+    .btn-outline-emerald:hover {
+      background: var(--emerald-50);
+      border-color: var(--emerald-500);
+      color: var(--emerald-800);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding: 8rem 0 5rem;
+      background: linear-gradient(135deg, #ffffff 0%, #f0fdf9 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--emerald-950);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-highlight {
+      color: var(--emerald-600);
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: var(--emerald-200);
+      z-index: -1;
+      border-radius: 4px;
+    }
+
+    /* Categories */
+    .category-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .category-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--emerald-300);
+      box-shadow: 0 20px 30px -12px rgba(5, 150, 105, 0.2);
+    }
+
+    .category-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--emerald-100);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2.5rem;
+      color: var(--emerald-700);
+    }
+
+    /* Products */
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      transition: 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--emerald-300);
+      box-shadow: 0 20px 30px -12px rgba(5, 150, 105, 0.2);
+    }
+
+    .product-image {
+      height: 260px;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.5s;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.08);
+    }
+
+    .product-body {
+      padding: 1.5rem;
+    }
+
+    .product-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--emerald-950);
+    }
+
+    .product-price {
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--emerald-700);
+    }
+
+    .product-rating {
+      color: #fbbf24;
+      font-size: 0.9rem;
+    }
+
+    /* Features */
+    .feature-box {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--emerald-100);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      color: var(--emerald-700);
+    }
+
+    /* Newsletter */
+    .newsletter-section {
+      background: linear-gradient(135deg, var(--emerald-900), var(--emerald-700));
+      border-radius: 40px;
+      padding: 4rem;
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--emerald-950);
+      color: #94a3b8;
+      padding: 4rem 0 2rem;
+      margin-top: 5rem;
+    }
+
+    .footer a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .footer a:hover {
+      color: white;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-right: 0.8rem;
+      transition: 0.2s;
+    }
+
+    .social-icon:hover {
+      background: var(--emerald-600);
+      transform: translateY(-3px);
+    }
+
+    /* Badge panier */
+    .cart-badge {
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 50%;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+      position: absolute;
+      top: -5px;
+      right: -8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Client -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem"></i>
+      <span>DropManage</span>
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarClient">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarClient">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="../index.html">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../administrateur/boutique.html">Boutique</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+      </ul>
+
+      <div class="d-flex gap-2 align-items-center">
+        <a href="compte_client.html" class="btn btn-outline-emerald">
+          <i class="bi bi-person"></i> Compte
+        </a>
+        <a href="pannier.html" class="btn btn-emerald position-relative">
+          <i class="bi bi-bag"></i> Panier
+          <span class="cart-badge">3</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <span class="badge bg-emerald-100 text-emerald-700 px-3 py-2 rounded-pill mb-4" style="background: var(--emerald-100); color: var(--emerald-700);">
+          <i class="bi bi-lightning-charge"></i> Livraison express en Afrique
+        </span>
+        <h1 class="hero-title">
+          Découvrez les meilleurs produits 
+          <span class="hero-highlight">dropshipping</span>
+          livrés chez vous
+        </h1>
+        <p class="fs-5 text-secondary mb-4">
+          Des milliers de produits de qualité, importés directement des meilleurs fournisseurs. 
+          Paiement sécurisé et livraison rapide dans toute l'Afrique.
+        </p>
+        <div class="d-flex gap-3">
+          <a href="../clientD/authentification.html" class="btn btn-emerald btn-lg px-4">
+            <i class="bi bi-shop"></i> Acheter maintenant
+          </a>
+          <a href="#categories" class="btn btn-outline-emerald btn-lg px-4">
+            <i class="bi bi-grid"></i> Explorer
+          </a>
+        </div>
+        <div class="d-flex gap-4 mt-4">
+          <div>
+            <i class="bi bi-check-circle-fill text-emerald-600"></i>
+            <span class="ms-2">+10 000 produits</span>
+          </div>
+          <div>
+            <i class="bi bi-check-circle-fill text-emerald-600"></i>
+            <span class="ms-2">Paiement sécurisé</span>
+          </div>
+          <div>
+            <i class="bi bi-check-circle-fill text-emerald-600"></i>
+            <span class="ms-2">Livraison 2-5 jours</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          <div class="col-6">
+            <img src="https://images.unsplash.com/photo-1600086827875-a63b01f1335c?w=600&q=80" class="img-fluid rounded-4 shadow" alt="product">
+          </div>
+          <div class="col-6 mt-5">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80" class="img-fluid rounded-4 shadow" alt="product">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Catégories populaires -->
+<section class="py-5" id="categories">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold display-6 mb-3">Catégories populaires</h2>
+      <p class="text-secondary">Découvrez nos catégories les plus vendues</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="bi bi-headphones"></i>
+          </div>
+          <h5 class="fw-bold">Audio</h5>
+          <p class="text-secondary small">Casques, écouteurs, enceintes</p>
+          <a href="shop.html?category=audio" class="text-emerald-600 text-decoration-none">Voir plus →</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="bi bi-smartwatch"></i>
+          </div>
+          <h5 class="fw-bold">Montres</h5>
+          <p class="text-secondary small">Montres connectées, classiques</p>
+          <a href="../administrateur/boutique.html" class="text-emerald-600 text-decoration-none">Voir plus →</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="bi bi-camera"></i>
+          </div>
+          <h5 class="fw-bold">Photo</h5>
+          <p class="text-secondary small">Appareils, accessoires</p>
+          <a href="shop.html?category=photo" class="text-emerald-600 text-decoration-none">Voir plus →</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="bi bi-phone"></i>
+          </div>
+          <h5 class="fw-bold">Accessoires</h5>
+          <p class="text-secondary small">Coques, chargeurs, câbles</p>
+          <a href="shop.html?category=accessoires" class="text-emerald-600 text-decoration-none">Voir plus →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Produits populaires -->
+<section class="py-5 bg-light" id="promotions">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+      <div>
+        <h2 class="fw-bold display-6 mb-3">Produits populaires</h2>
+        <p class="text-secondary">Les articles les plus vendus du moment</p>
+      </div>
+      <a href="shop.html" class="btn btn-outline-emerald">Voir tout <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-3">
+        <a href="product-detail.html?id=1" class="product-card">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&q=80" alt="produit">
+          </div>
+          <div class="product-body">
+            <div class="product-rating mb-2">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+              <span class="text-secondary ms-1">(124)</span>
+            </div>
+            <h6 class="product-title">Casque Focus S3</h6>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="product-price">59 900 FCFA</span>
+              <span class="badge bg-danger text-white">-15%</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-3">
+        <a href="product-detail.html?id=2" class="product-card">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80" alt="produit">
+          </div>
+          <div class="product-body">
+            <div class="product-rating mb-2">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <span class="text-secondary ms-1">(89)</span>
+            </div>
+            <h6 class="product-title">Chrono Émeraude</h6>
+            <div class="d-flex justify-content-between">
+              <span class="product-price">129 500 FCFA</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-3">
+        <a href="product-detail.html?id=3" class="product-card">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1600086827875-a63b01f1335c?w=400&q=80" alt="produit">
+          </div>
+          <div class="product-body">
+            <div class="product-rating mb-2">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star"></i>
+              <span class="text-secondary ms-1">(56)</span>
+            </div>
+            <h6 class="product-title">Enceinte Mini Go</h6>
+            <div class="d-flex justify-content-between">
+              <span class="product-price">29 900 FCFA</span>
+              <span class="badge bg-success text-white">Nouveau</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-3">
+        <a href="product-detail.html?id=4" class="product-card">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=80" alt="produit">
+          </div>
+          <div class="product-body">
+            <div class="product-rating mb-2">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+              <span class="text-secondary ms-1">(42)</span>
+            </div>
+            <h6 class="product-title">Caméra Pocket 4K</h6>
+            <div class="d-flex justify-content-between">
+              <span class="product-price">89 900 FCFA</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="bi bi-truck"></i>
+          </div>
+          <h6 class="fw-bold">Livraison rapide</h6>
+          <p class="small text-secondary">2-5 jours ouvrés</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h6 class="fw-bold">Paiement sécurisé</h6>
+          <p class="small text-secondary">Stripe, PayPal, Mobile Money</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="bi bi-arrow-repeat"></i>
+          </div>
+          <h6 class="fw-bold">Retour gratuit</h6>
+          <p class="small text-secondary">Sous 30 jours</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="bi bi-headset"></i>
+          </div>
+          <h6 class="fw-bold">Support 24/7</h6>
+          <p class="small text-secondary">Service client disponible</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="py-5">
+  <div class="container">
+    <div class="newsletter-section">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h3 class="fw-bold mb-3">Restez informé</h3>
+          <p>Soyez le premier à recevoir nos promotions et nouveaux produits</p>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="email" class="form-control form-control-lg border-0" placeholder="Votre email">
+            <button class="btn btn-light btn-lg px-4" style="color: var(--emerald-700);">S'inscrire</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i class="bi bi-gem fs-2" style="color: var(--emerald-500);"></i>
+          <span class="fw-bold fs-4 text-white">DropManage</span>
+        </div>
+        <p class="small">Votre partenaire dropshipping de confiance. Des milliers de produits de qualité livrés chez vous.</p>
+        <div class="mt-3">
+          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <h6 class="text-white fw-bold mb-3">Liens rapides</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="index.html">Accueil</a></li>
+          <li class="mb-2"><a href="shop.html">Boutique</a></li>
+          <li class="mb-2"><a href="#categories">Catégories</a></li>
+          <li class="mb-2"><a href="#promotions">Promotions</a></li>
+          <li class="mb-2"><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-3">
+        <h6 class="text-white fw-bold mb-3">Service client</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#">FAQ</a></li>
+          <li class="mb-2"><a href="#">Livraison</a></li>
+          <li class="mb-2"><a href="#">Retours</a></li>
+          <li class="mb-2"><a href="#">Paiement sécurisé</a></li>
+          <li class="mb-2"><a href="#">Mentions légales</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-3">
+        <h6 class="text-white fw-bold mb-3">Contact</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Abidjan, Côte d'Ivoire</li>
+          <li class="mb-2"><i class="bi bi-envelope me-2"></i> contact@dropmanage.com</li>
+          <li class="mb-2"><i class="bi bi-telephone me-2"></i> +225 07 89 45 67 89</li>
+        </ul>
+        <div class="mt-3">
+          <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/visa.svg" alt="visa" width="40" class="me-2">
+          <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/mastercard.svg" alt="mastercard" width="40" class="me-2">
+          <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/paypal.svg" alt="paypal" width="40" class="me-2">
+          <img src="https://cdn.jsdelivr.net/npm/@icons/payment@1.0.0/icons/orange-money.svg" alt="orange money" width="40">
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-secondary mt-4">
+
+    <div class="d-flex justify-content-between align-items-center small">
+      <span>&copy; 2025 DropManage. Tous droits réservés.</span>
+      <span>
+        <a href="#" class="me-3">Confidentialité</a>
+        <a href="#">CGV</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Forcer l'absence de soulignement sur tous les liens
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+      link.style.textDecoration = 'none';
+    });
+  });
+</script>
+</body>
+</html>

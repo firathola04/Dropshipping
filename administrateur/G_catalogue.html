@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue Admin · DropManage</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: white !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 0.8rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--emerald-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .navbar-brand i {
+      color: var(--emerald-500);
+      font-size: 1.8rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: white;
+      min-height: calc(100vh - 70px);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+      border-right: 1px solid #edf2f7;
+    }
+
+    .sidebar .nav-link {
+      color: #4a5568;
+      padding: 0.8rem 1.5rem;
+      margin: 0.2rem 1rem;
+      border-radius: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .sidebar .nav-link:hover {
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    /* Boutons */
+    .btn-emerald {
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+    .btn-emerald:hover {
+      background: var(--emerald-700);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-emerald {
+      border: 1px solid var(--emerald-300);
+      color: var(--emerald-800);
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      background: transparent;
+      transition: 0.2s;
+    }
+
+    .btn-outline-emerald:hover {
+      background: var(--emerald-50);
+      border-color: var(--emerald-500);
+      color: var(--emerald-900);
+      transform: translateY(-2px);
+    }
+
+    .badge-emerald {
+      background: var(--emerald-100);
+      color: var(--emerald-800);
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Cards */
+    .stat-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -2px rgba(0,0,0,0.02);
+      transition: 0.2s;
+      height: 100%;
+    }
+
+    .stat-card:hover {
+      border-color: var(--emerald-300);
+      box-shadow: 0 8px 15px -6px rgba(5, 150, 105, 0.2);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--emerald-700);
+    }
+
+    .stat-label {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Tableau */
+    .table-container {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      border-bottom-width: 1px;
+      border-bottom-color: #e2e8f0;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .table tbody td {
+      vertical-align: middle;
+      padding: 1rem 0.5rem;
+      border-bottom-color: #f1f5f9;
+    }
+
+    .product-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .product-name {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .product-sku {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .stock-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .stock-high { background: #10b981; }
+    .stock-medium { background: #f59e0b; }
+    .stock-low { background: #ef4444; }
+
+    .action-btn {
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
+      color: #64748b;
+      transition: 0.2s;
+    }
+
+    .action-btn:hover {
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+    }
+
+    /* Filtres */
+    .filters-bar {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+      border: none;
+      color: #475569;
+      border-radius: 10px;
+      margin: 0 0.2rem;
+    }
+
+    .pagination .active .page-link {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    /* Pour éviter tout soulignement */
+    a, a:hover, a:focus, a:active, button {
+      text-decoration: none !important;
+      outline: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Admin -->
+<nav class="navbar">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem"></i>
+      <span>DropManage Admin</span>
+    </a>
+    <div class="d-flex gap-3">
+      <span class="badge-emerald"><i class="bi bi-box-seam me-1"></i>Catalogue</span>
+      <a href="../index.html" class="btn btn-outline-emerald btn-sm"><i class="bi bi-box-arrow-right"></i> Retour site</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-2 p-0 sidebar">
+      <div class="py-4">
+        <a href="#" class="nav-link active">
+          <i class="bi bi-box-seam"></i> Catalogue
+        </a>
+        <a href="tableau_bord.html" class="nav-link">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="suivi_commande.html" class="nav-link">
+          <i class="bi bi-truck"></i> Commandes
+        </a>
+        <a href="boutique.html" class="nav-link">
+          <i class="bi bi-shop"></i> Boutique
+        </a>
+        <a href="G_fournisseur.html" class="nav-link">
+          <i class="bi bi-people"></i> Fournisseurs
+        </a>
+        <a href="centre_importation.html" class="nav-link">
+          <i class="bi bi-cloud-upload"></i> Importation
+        </a>
+        <a href="analyse_rapport.html" class="nav-link">
+          <i class="bi bi-graph-up"></i> Rapports
+        </a>
+        <a href="parametre_sys.html" class="nav-link">
+          <i class="bi bi-gear"></i> Paramètres
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-10 p-4">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 class="fw-bold mb-1">Gestion du catalogue</h4>
+          <p class="text-secondary">Gérez tous vos produits, stocks et fournisseurs</p>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="#" class="btn btn-outline-emerald">
+            <i class="bi bi-download"></i> Exporter
+          </a>
+          <a href="#" class="btn btn-emerald">
+            <i class="bi bi-plus-lg"></i> Nouveau produit
+          </a>
+        </div>
+      </div>
+
+      <!-- Statistiques catalogue -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="stat-number">247</span>
+                <div class="stat-label">Total produits</div>
+              </div>
+              <div class="bg-emerald-100 p-3 rounded-3" style="background: var(--emerald-100);">
+                <i class="bi bi-box fs-3" style="color: var(--emerald-600);"></i>
+              </div>
+            </div>
+            <div class="mt-2">
+              <span class="badge-emerald">+12 ce mois</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="stat-number">189</span>
+                <div class="stat-label">En stock</div>
+              </div>
+              <div class="bg-emerald-100 p-3 rounded-3" style="background: var(--emerald-100);">
+                <i class="bi bi-check-circle fs-3" style="color: var(--emerald-600);"></i>
+              </div>
+            </div>
+            <div class="mt-2">
+              <span class="text-success">76% du catalogue</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="stat-number">42</span>
+                <div class="stat-label">Stock faible</div>
+              </div>
+              <div class="bg-emerald-100 p-3 rounded-3" style="background: var(--emerald-100);">
+                <i class="bi bi-exclamation-triangle fs-3" style="color: var(--emerald-600);"></i>
+              </div>
+            </div>
+            <div class="mt-2">
+              <span class="text-warning">À réapprovisionner</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="stat-number">16</span>
+                <div class="stat-label">En rupture</div>
+              </div>
+              <div class="bg-emerald-100 p-3 rounded-3" style="background: var(--emerald-100);">
+                <i class="bi bi-x-circle fs-3" style="color: var(--emerald-600);"></i>
+              </div>
+            </div>
+            <div class="mt-2">
+              <span class="text-danger">Action requise</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barre de filtres -->
+      <div class="filters-bar">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-3">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0">
+                <i class="bi bi-search text-secondary"></i>
+              </span>
+              <input type="text" class="form-control border-start-0" placeholder="Rechercher un produit...">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select">
+              <option>Toutes catégories</option>
+              <option>Audio</option>
+              <option>Montres</option>
+              <option>Photo</option>
+              <option>Enceintes</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select">
+              <option>Tous fournisseurs</option>
+              <option>CJ Dropshipping</option>
+              <option>AliExpress</option>
+              <option>Amazon</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select">
+              <option>Statut stock</option>
+              <option>En stock</option>
+              <option>Stock faible</option>
+              <option>Rupture</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <div class="d-flex gap-2 justify-content-end">
+              <button class="btn btn-outline-emerald btn-sm">
+                <i class="bi bi-arrow-repeat"></i> Réinitialiser
+              </button>
+              <button class="btn btn-emerald btn-sm">
+                <i class="bi bi-funnel"></i> Appliquer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tableau des produits -->
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="80">Image</th>
+              <th>Produit</th>
+              <th>Catégorie</th>
+              <th>Prix</th>
+              <th>Stock</th>
+              <th>Fournisseur</th>
+              <th>Statut</th>
+              <th width="120">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=100&q=80" class="product-image" alt="produit">
+              </td>
+              <td>
+                <div class="product-name">Casque Focus S3</div>
+                <div class="product-sku">REF: CAS-FOCUS-01</div>
+              </td>
+              <td>Audio</td>
+              <td><span class="fw-bold">59 900 FCFA</span></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="stock-indicator stock-high"></span>
+                  <span>47</span>
+                </div>
+              </td>
+              <td>CJ Dropshipping</td>
+              <td><span class="badge-emerald">Actif</span></td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a href="#" class="action-btn" title="Voir"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="action-btn" title="Modifier"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="action-btn" title="Dupliquer"><i class="bi bi-copy"></i></a>
+                  <a href="#" class="action-btn text-danger" title="Supprimer" onclick="return confirm('Supprimer ce produit ?')"><i class="bi bi-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&q=80" class="product-image" alt="produit">
+              </td>
+              <td>
+                <div class="product-name">Chrono Émeraude</div>
+                <div class="product-sku">REF: MONT-EMER-02</div>
+              </td>
+              <td>Montres</td>
+              <td><span class="fw-bold">129 500 FCFA</span></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="stock-indicator stock-medium"></span>
+                  <span>12</span>
+                </div>
+              </td>
+              <td>AliExpress</td>
+              <td><span class="badge-emerald">Actif</span></td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a href="#" class="action-btn"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-copy"></i></a>
+                  <a href="#" class="action-btn text-danger" onclick="return confirm('Supprimer ce produit ?')"><i class="bi bi-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src="https://images.unsplash.com/photo-1600086827875-a63b01f1335c?w=100&q=80" class="product-image" alt="produit">
+              </td>
+              <td>
+                <div class="product-name">Enceinte Mini Go</div>
+                <div class="product-sku">REF: ENC-MINI-03</div>
+              </td>
+              <td>Enceinte</td>
+              <td><span class="fw-bold">29 900 FCFA</span></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="stock-indicator stock-high"></span>
+                  <span>103</span>
+                </div>
+              </td>
+              <td>Amazon</td>
+              <td><span class="badge-emerald">Actif</span></td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a href="#" class="action-btn"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-copy"></i></a>
+                  <a href="#" class="action-btn text-danger" onclick="return confirm('Supprimer ce produit ?')"><i class="bi bi-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=100&q=80" class="product-image" alt="produit">
+              </td>
+              <td>
+                <div class="product-name">Caméra Pocket 4K</div>
+                <div class="product-sku">REF: CAM-POCKET-04</div>
+              </td>
+              <td>Photo</td>
+              <td><span class="fw-bold">89 900 FCFA</span></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="stock-indicator stock-low"></span>
+                  <span>8</span>
+                </div>
+              </td>
+              <td>CJ Dropshipping</td>
+              <td><span class="badge-emerald">Actif</span></td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a href="#" class="action-btn"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-copy"></i></a>
+                  <a href="#" class="action-btn text-danger" onclick="return confirm('Supprimer ce produit ?')"><i class="bi bi-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=100&q=80" class="product-image" alt="produit">
+              </td>
+              <td>
+                <div class="product-name">Montre Connectée X1</div>
+                <div class="product-sku">REF: MONT-X1-05</div>
+              </td>
+              <td>Montres</td>
+              <td><span class="fw-bold">89 900 FCFA</span></td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="stock-indicator stock-medium"></span>
+                  <span>0</span>
+                </div>
+              </td>
+              <td>AliExpress</td>
+              <td><span class="badge-emerald" style="background: #fff3cd; color: #856404;">Brouillon</span></td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a href="#" class="action-btn"><i class="bi bi-eye"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="action-btn"><i class="bi bi-copy"></i></a>
+                  <a href="#" class="action-btn text-danger" onclick="return confirm('Supprimer ce produit ?')"><i class="bi bi-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-4">
+          <p class="text-secondary small mb-0">Affichage 1-5 de 247 produits</p>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#">5</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Actions en masse -->
+      <div class="mt-4 p-3 bg-white rounded-3 border d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="selectAll">
+            <label class="form-check-label" for="selectAll">Sélectionner tout</label>
+          </div>
+          <select class="form-select form-select-sm w-auto">
+            <option>Actions groupées</option>
+            <option>Changer statut</option>
+            <option>Mettre à jour prix</option>
+            <option>Exporter sélection</option>
+            <option>Supprimer</option>
+          </select>
+          <button class="btn btn-outline-emerald btn-sm">Appliquer</button>
+        </div>
+        <div>
+          <span class="text-secondary">Dernière sync: il y a 5 min</span>
+          <i class="bi bi-arrow-repeat ms-2" style="color: var(--emerald-600); cursor: pointer;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Forcer l'absence de soulignement sur tous les liens
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+      link.style.textDecoration = 'none';
+    });
+    
+    // Checkbox "Sélectionner tout"
+    document.getElementById('selectAll')?.addEventListener('change', function(e) {
+      const checkboxes = document.querySelectorAll('.form-check-input:not(#selectAll)');
+      checkboxes.forEach(cb => {
+        cb.checked = e.target.checked;
+      });
+    });
+  });
+</script>
+</body>
+</html>

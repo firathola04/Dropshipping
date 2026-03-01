@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement · DropManage</title>
+  <!-- Bootstrap 5 -->
+  <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/fontawesome-free-6.7.2-web/css/all.min.css">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--emerald-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .checkout-steps {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    .step.active .step-number {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    .step.completed .step-number {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    .step-line {
+      width: 80px;
+      height: 2px;
+      background: #e2e8f0;
+      margin: 0 1rem;
+    }
+
+    .checkout-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1.5rem;
+    }
+
+    .payment-method {
+      border: 1px solid #e2e8f0;
+      border-radius: 15px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .payment-method:hover {
+      border-color: var(--emerald-300);
+    }
+
+    .payment-method.selected {
+      border: 2px solid var(--emerald-600);
+      background: var(--emerald-50);
+    }
+
+    .order-summary {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      position: sticky;
+      top: 100px;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .order-item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem"></i>
+      <span>DropManage</span>
+    </a>
+    <a href="pannier.html" class="btn btn-outline-emerald">
+      <i class="bi bi-arrow-left"></i> Retour au panier
+    </a>
+  </div>
+</nav>
+
+<!-- Étapes -->
+<div class="container mt-4">
+  <div class="checkout-steps">
+    <div class="step completed">
+      <div class="step-number"><i class="bi bi-check-lg"></i></div>
+      <span>Panier</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step active">
+      <div class="step-number">2</div>
+      <span>Paiement</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <span>Confirmation</span>
+    </div>
+  </div>
+</div>
+
+<!-- Contenu checkout -->
+<section class="py-4">
+  <div class="container">
+    <div class="row">
+      <!-- Formulaire -->
+      <div class="col-lg-8">
+        <!-- Informations de livraison -->
+        <div class="checkout-card">
+          <h5 class="fw-bold mb-4"><i class="bi bi-truck me-2" style="color: var(--emerald-600);"></i>Informations de livraison</h5>
+          
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-medium">Prénom</label>
+              <input type="text" class="form-control" value="Jean">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-medium">Nom</label>
+              <input type="text" class="form-control" value="Dupont">
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-medium">Email</label>
+              <input type="email" class="form-control" value="jean.dupont@email.com">
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-medium">Téléphone</label>
+              <input type="tel" class="form-control" value="+225 07 89 45 67 89">
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-medium">Adresse</label>
+              <input type="text" class="form-control" value="Cocody, Rue des Jardins">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-medium">Ville</label>
+              <input type="text" class="form-control" value="Abidjan">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-medium">Pays</label>
+              <select class="form-select">
+                <option selected>Côte d'Ivoire</option>
+                <option>Sénégal</option>
+                <option>Mali</option>
+                <option>Burkina Faso</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-medium">Code postal</label>
+              <input type="text" class="form-control" value="BP 1234">
+            </div>
+          </div>
+        </div>
+
+        <!-- Méthode de livraison -->
+        <div class="checkout-card">
+          <h5 class="fw-bold mb-4"><i class="bi bi-box me-2" style="color: var(--emerald-600);"></i>Méthode de livraison</h5>
+          
+          <div class="payment-method selected" onclick="selectShipping(this)">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="fw-bold mb-1">Livraison standard</h6>
+                <p class="small text-secondary mb-0">Délai: 3-5 jours ouvrés</p>
+              </div>
+              <span class="fw-bold">3 500 FCFA</span>
+            </div>
+          </div>
+
+          <div class="payment-method" onclick="selectShipping(this)">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="fw-bold mb-1">Livraison express</h6>
+                <p class="small text-secondary mb-0">Délai: 1-2 jours ouvrés</p>
+              </div>
+              <span class="fw-bold">7 500 FCFA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paiement -->
+        <div class="checkout-card">
+          <h5 class="fw-bold mb-4"><i class="bi bi-credit-card me-2" style="color: var(--emerald-600);"></i>Moyen de paiement</h5>
+          
+          <div class="payment-method selected" onclick="selectPayment(this)">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-credit-card fs-4"></i>
+              <div>
+                <h6 class="fw-bold mb-1">Carte bancaire</h6>
+                <p class="small text-secondary mb-0">Visa, Mastercard</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="payment-method" onclick="selectPayment(this)">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-paypal fs-4"></i>
+              <div>
+                <h6 class="fw-bold mb-1">PayPal</h6>
+                <p class="small text-secondary mb-0">Paiement sécurisé</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="payment-method" onclick="selectPayment(this)">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-phone fs-4"></i>
+              <div>
+                <h6 class="fw-bold mb-1">Mobile Money</h6>
+                <p class="small text-secondary mb-0">Orange Money, MTN</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Détails carte (simulés) -->
+          <div class="mt-4 p-3 bg-light rounded-3">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label fw-medium">Numéro de carte</label>
+                <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Date d'expiration</label>
+                <input type="text" class="form-control" placeholder="MM/AA">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">CVV</label>
+                <input type="text" class="form-control" placeholder="123">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+          <a href="pannier.html" class="btn btn-outline-emerald">
+            <i class="bi bi-arrow-left"></i> Retour au panier
+          </a>
+          <button class="btn btn-emerald px-5 py-3" onclick="completeOrder()">
+            <i class="bi bi-lock"></i> Payer 252 700 FCFA
+          </button>
+        </div>
+      </div>
+
+      <!-- Résumé commande -->
+      <div class="col-lg-4">
+        <div class="order-summary">
+          <h5 class="fw-bold mb-4">Votre commande</h5>
+          
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=200&q=80" class="order-item-image" alt="produit">
+            <div class="flex-grow-1">
+              <h6 class="fw-bold small">Casque Focus S3</h6>
+              <p class="small text-secondary">Qté: 1</p>
+            </div>
+            <span class="fw-bold">59 900 FCFA</span>
+          </div>
+
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80" class="order-item-image" alt="produit">
+            <div class="flex-grow-1">
+              <h6 class="fw-bold small">Chrono Émeraude</h6>
+              <p class="small text-secondary">Qté: 1</p>
+            </div>
+            <span class="fw-bold">129 500 FCFA</span>
+          </div>
+
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1600086827875-a63b01f1335c?w=200&q=80" class="order-item-image" alt="produit">
+            <div class="flex-grow-1">
+              <h6 class="fw-bold small">Enceinte Mini Go</h6>
+              <p class="small text-secondary">Qté: 2</p>
+            </div>
+            <span class="fw-bold">59 800 FCFA</span>
+          </div>
+
+          <hr>
+
+          <div class="d-flex justify-content-between mb-2">
+            <span>Sous-total</span>
+            <span class="fw-bold">249 200 FCFA</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Livraison</span>
+            <span class="fw-bold">3 500 FCFA</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between fs-5 fw-bold" style="color: var(--emerald-700);">
+            <span>Total</span>
+            <span>252 700 FCFA</span>
+          </div>
+
+          <p class="small text-secondary mt-3">
+            <i class="bi bi-shield-check text-emerald-600"></i> Vos informations sont sécurisées
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function selectShipping(element) {
+    document.querySelectorAll('.payment-method').forEach(el => {
+      el.classList.remove('selected');
+    });
+    element.classList.add('selected');
+  }
+
+  function selectPayment(element) {
+    document.querySelectorAll('.payment-method').forEach(el => {
+      el.classList.remove('selected');
+    });
+    element.classList.add('selected');
+  }
+
+  function completeOrder() {
+    alert('Commande confirmée ! Vous allez recevoir un email de confirmation.');
+    window.location.href = 'order-confirmation.html';
+  }
+</script>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

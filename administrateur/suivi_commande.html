@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suivi Commandes · DropManage</title>
+  <!-- Bootstrap 5 -->
+  <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/fontawesome-free-6.7.2-web/css/all.min.css">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .navbar {
+      background: white !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 0.8rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, var(--emerald-700), var(--emerald-500));
+      /* Correction: pas de text-fill-color pour éviter le soulignement jaune */
+      color: var(--emerald-700);
+    }
+    
+    .navbar-brand i {
+      color: var(--emerald-500);
+      background: none;
+      -webkit-text-fill-color: initial;
+    }
+
+    .sidebar {
+      background: white;
+      min-height: calc(100vh - 70px);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+      border-right: 1px solid #edf2f7;
+    }
+
+    .sidebar .nav-link {
+      color: #4a5568;
+      padding: 0.8rem 1.5rem;
+      margin: 0.2rem 1rem;
+      border-radius: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+    }
+
+    .sidebar .nav-link:hover {
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    .btn-emerald {
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-emerald:hover {
+      background: var(--emerald-700);
+      color: white;
+    }
+
+    .btn-outline-emerald {
+      border: 1px solid var(--emerald-300);
+      color: var(--emerald-800);
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      background: transparent;
+    }
+
+    .btn-outline-emerald:hover {
+      background: var(--emerald-50);
+      border-color: var(--emerald-500);
+      color: var(--emerald-900);
+    }
+
+    .btn-outline-emerald.active {
+      background: var(--emerald-600);
+      color: white;
+      border-color: var(--emerald-600);
+    }
+
+    .badge-emerald {
+      background: var(--emerald-100);
+      color: var(--emerald-800);
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+    }
+
+    .order-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.2rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1rem;
+      transition: 0.2s;
+    }
+    
+    .order-card:hover {
+      border-color: var(--emerald-300);
+      box-shadow: 0 5px 15px rgba(5, 150, 105, 0.1);
+    }
+
+    .status-badge {
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-block;
+      cursor: pointer;
+      transition: 0.2s;
+      border: none;
+    }
+    
+    .status-badge:hover {
+      transform: translateY(-2px);
+      filter: brightness(0.95);
+    }
+
+    .status-paid { background: #d1fae5; color: #065f46; }
+    .status-shipped { background: #dbeafe; color: #1e40af; }
+    .status-delivered { background: #e0e7ff; color: #3730a3; }
+    .status-pending { background: #fff3cd; color: #856404; }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Admin -->
+<nav class="navbar">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem me-2"></i>DropManage Admin
+    </a>
+    <div class="d-flex gap-3">
+      <span class="badge-emerald"><i class="bi bi-person-circle me-1"></i>Admin</span>
+      <a href="../index.html" class="btn btn-outline-emerald btn-sm"><i class="bi bi-box-arrow-right"></i> Retour site</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-2 p-0 sidebar">
+      <div class="py-4">
+        <a href="tableau_bord.html" class="nav-link">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="G_catalogue.html" class="nav-link">
+          <i class="bi bi-box-seam"></i> Catalogue
+        </a>
+        <a href="#" class="nav-link active">
+          <i class="bi bi-truck"></i> Commandes
+        </a>
+        <a href="G_fournisseur.html" class="nav-link">
+          <i class="bi bi-people"></i> Fournisseurs
+        </a>
+        <a href="analyse_rapport.html" class="nav-link">
+          <i class="bi bi-graph-up"></i> Rapports
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-10 p-4">
+      <h4 class="fw-bold mb-4">Suivi des commandes</h4>
+
+      <!-- Filtres fonctionnels avec JavaScript -->
+      <div class="d-flex gap-2 mb-4">
+        <button onclick="filterOrders('all')" id="filter-all" class="btn btn-emerald btn-sm">Toutes</button>
+        <button onclick="filterOrders('pending')" id="filter-pending" class="btn btn-outline-emerald btn-sm">En attente</button>
+        <button onclick="filterOrders('paid')" id="filter-paid" class="btn btn-outline-emerald btn-sm">Payées</button>
+        <button onclick="filterOrders('shipped')" id="filter-shipped" class="btn btn-outline-emerald btn-sm">Expédiées</button>
+        <button onclick="filterOrders('delivered')" id="filter-delivered" class="btn btn-outline-emerald btn-sm">Livrées</button>
+      </div>
+
+      <!-- Liste commandes avec statuts modifiables -->
+      <div id="orders-list">
+        <!-- Commande 1: Payée -->
+        <div class="order-card" data-status="paid">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <span class="fw-bold">#CMD-2025-042</span>
+            </div>
+            <div class="col-md-2">
+              <span>15 Fév 2025</span>
+            </div>
+            <div class="col-md-2">
+              <span>Jean Dupont</span>
+            </div>
+            <div class="col-md-2">
+              <span class="fw-bold">84 500 FCFA</span>
+            </div>
+            <div class="col-md-2">
+              <select class="status-badge status-paid" onchange="updateOrderStatus(this, '042')" style="border: none;">
+                <option value="pending" class="status-pending">En attente</option>
+                <option value="paid" selected class="status-paid">Payée</option>
+                <option value="shipped" class="status-shipped">Expédiée</option>
+                <option value="delivered" class="status-delivered">Livrée</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button onclick="viewTracking('042')" class="btn btn-emerald btn-sm"><i class="bi bi-truck"></i> Voir tracking</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commande 2: Expédiée -->
+        <div class="order-card" data-status="shipped">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <span class="fw-bold">#CMD-2025-041</span>
+            </div>
+            <div class="col-md-2">
+              <span>15 Fév 2025</span>
+            </div>
+            <div class="col-md-2">
+              <span>Marie Martin</span>
+            </div>
+            <div class="col-md-2">
+              <span class="fw-bold">129 500 FCFA</span>
+            </div>
+            <div class="col-md-2">
+              <select class="status-badge status-shipped" onchange="updateOrderStatus(this, '041')" style="border: none;">
+                <option value="pending" class="status-pending">En attente</option>
+                <option value="paid" class="status-paid">Payée</option>
+                <option value="shipped" selected class="status-shipped">Expédiée</option>
+                <option value="delivered" class="status-delivered">Livrée</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button onclick="viewTracking('041')" class="btn btn-emerald btn-sm"><i class="bi bi-truck"></i> Tracking</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commande 3: Livrée -->
+        <div class="order-card" data-status="delivered">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <span class="fw-bold">#CMD-2025-040</span>
+            </div>
+            <div class="col-md-2">
+              <span>14 Fév 2025</span>
+            </div>
+            <div class="col-md-2">
+              <span>Pierre Durand</span>
+            </div>
+            <div class="col-md-2">
+              <span class="fw-bold">29 900 FCFA</span>
+            </div>
+            <div class="col-md-2">
+              <select class="status-badge status-delivered" onchange="updateOrderStatus(this, '040')" style="border: none;">
+                <option value="pending" class="status-pending">En attente</option>
+                <option value="paid" class="status-paid">Payée</option>
+                <option value="shipped" class="status-shipped">Expédiée</option>
+                <option value="delivered" selected class="status-delivered">Livrée</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button onclick="viewTracking('040')" class="btn btn-emerald btn-sm"><i class="bi bi-truck"></i> Tracking</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commande 4: En attente -->
+        <div class="order-card" data-status="pending">
+          <div class="row align-items-center">
+            <div class="col-md-2">
+              <span class="fw-bold">#CMD-2025-039</span>
+            </div>
+            <div class="col-md-2">
+              <span>14 Fév 2025</span>
+            </div>
+            <div class="col-md-2">
+              <span>Sophie Kouamé</span>
+            </div>
+            <div class="col-md-2">
+              <span class="fw-bold">189 500 FCFA</span>
+            </div>
+            <div class="col-md-2">
+              <select class="status-badge status-pending" onchange="updateOrderStatus(this, '039')" style="border: none;">
+                <option value="pending" selected class="status-pending">En attente</option>
+                <option value="paid" class="status-paid">Payée</option>
+                <option value="shipped" class="status-shipped">Expédiée</option>
+                <option value="delivered" class="status-delivered">Livrée</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button onclick="viewTracking('039')" class="btn btn-emerald btn-sm"><i class="bi bi-truck"></i> Tracking</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Message quand aucune commande -->
+      <div id="no-orders-message" class="text-center p-5 bg-white rounded-4 border" style="display: none;">
+        <i class="bi bi-inbox fs-1 text-secondary"></i>
+        <p class="mt-3">Aucune commande pour ce filtre</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript pour rendre les boutons fonctionnels -->
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js">
+  // État actuel du filtre
+  let currentFilter = 'all';
+  
+  // Fonction pour filtrer les commandes
+  function filterOrders(status) {
+    currentFilter = status;
+    const orders = document.querySelectorAll('.order-card');
+    let visibleCount = 0;
+    
+    // Mettre à jour l'apparence des boutons
+    document.querySelectorAll('.btn-outline-emerald, .btn-emerald').forEach(btn => {
+      btn.classList.remove('btn-emerald');
+      btn.classList.add('btn-outline-emerald');
+    });
+    
+    if (status === 'all') {
+      document.getElementById('filter-all').classList.remove('btn-outline-emerald');
+      document.getElementById('filter-all').classList.add('btn-emerald');
+    } else {
+      document.getElementById(`filter-${status}`).classList.remove('btn-outline-emerald');
+      document.getElementById(`filter-${status}`).classList.add('btn-emerald');
+    }
+    
+    // Filtrer les commandes
+    orders.forEach(order => {
+      if (status === 'all' || order.dataset.status === status) {
+        order.style.display = 'block';
+        visibleCount++;
+      } else {
+        order.style.display = 'none';
+      }
+    });
+    
+    // Afficher/masquer le message "aucune commande"
+    const noOrdersMsg = document.getElementById('no-orders-message');
+    if (visibleCount === 0) {
+      noOrdersMsg.style.display = 'block';
+    } else {
+      noOrdersMsg.style.display = 'none';
+    }
+  }
+  
+  // Fonction pour mettre à jour le statut d'une commande
+  function updateOrderStatus(selectElement, orderId) {
+    const newStatus = selectElement.value;
+    const orderCard = selectElement.closest('.order-card');
+    
+    // Mettre à jour la classe du select
+    selectElement.className = `status-badge status-${newStatus}`;
+    
+    // Mettre à jour le data-status de la carte
+    orderCard.dataset.status = newStatus;
+    
+    // Simuler une alerte de mise à jour (optionnel)
+    console.log(`Commande ${orderId} mise à jour vers: ${newStatus}`);
+    
+    // Optionnel: afficher une notification
+    alert(`Statut de la commande ${orderId} mis à jour: ${getStatusText(newStatus)}`);
+    
+    // Si on est en mode filtre, vérifier si la commande doit toujours être visible
+    if (currentFilter !== 'all' && currentFilter !== newStatus) {
+      orderCard.style.display = 'none';
+      // Vérifier s'il reste des commandes visibles
+      checkVisibleOrders();
+    }
+  }
+  
+  // Fonction pour obtenir le texte du statut
+  function getStatusText(status) {
+    const statusMap = {
+      'pending': 'En attente',
+      'paid': 'Payée',
+      'shipped': 'Expédiée',
+      'delivered': 'Livrée'
+    };
+    return statusMap[status] || status;
+  }
+  
+  // Fonction pour vérifier les commandes visibles après mise à jour
+  function checkVisibleOrders() {
+    const orders = document.querySelectorAll('.order-card');
+    let visibleCount = 0;
+    
+    orders.forEach(order => {
+      if (order.style.display !== 'none') {
+        visibleCount++;
+      }
+    });
+    
+    const noOrdersMsg = document.getElementById('no-orders-message');
+    if (visibleCount === 0) {
+      noOrdersMsg.style.display = 'block';
+    } else {
+      noOrdersMsg.style.display = 'none';
+    }
+  }
+  
+  // Fonction pour voir le tracking (simulé)
+  function viewTracking(orderId) {
+    alert(`Suivi de la commande ${orderId}\nNuméro de tracking: TRK-${orderId}-${Math.floor(Math.random()*10000)}\nTransporteur: DHL Express\nStatut: En transit`);
+  }
+  
+  // Initialiser au chargement
+  window.onload = function() {
+    // Vérifier s'il y a un filtre dans l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterParam = urlParams.get('filter');
+    if (filterParam) {
+      filterOrders(filterParam);
+    }
+  };
+</script>
+
+<!-- Style additionnel pour les selects -->
+<style>
+  .status-badge {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 28px;
+    cursor: pointer;
+  }
+  
+  .status-badge option {
+    background: white;
+    color: #1e293b;
+  }
+  
+  /* Correction pour -webkit-background-clip:text */
+  .navbar-brand {
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+    -webkit-background-clip: unset;
+    background: none;
+    color: var(--emerald-700);
+  }
+</style>
+</body>
+</html>

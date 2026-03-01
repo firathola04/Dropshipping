@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paramètres · DropManage</title>
+  <!-- Bootstrap 5 -->
+  <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/fontawesome-free-6.7.2-web/css/all.min.css">
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-200: #a7f3d0;
+      --emerald-300: #6ee7b7;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --emerald-900: #064e3b;
+      --emerald-950: #022c22;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: white !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 0.8rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--emerald-700);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .navbar-brand i {
+      color: var(--emerald-500);
+      font-size: 1.8rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: white;
+      min-height: calc(100vh - 70px);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+      border-right: 1px solid #edf2f7;
+    }
+
+    .sidebar .nav-link {
+      color: #4a5568;
+      padding: 0.8rem 1.5rem;
+      margin: 0.2rem 1rem;
+      border-radius: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .sidebar .nav-link:hover {
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    /* Boutons */
+    .btn-emerald {
+      background: var(--emerald-600);
+      color: white;
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+
+    .btn-emerald:hover {
+      background: var(--emerald-700);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-emerald {
+      border: 1px solid var(--emerald-300);
+      color: var(--emerald-800);
+      border-radius: 10px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      background: transparent;
+      transition: 0.2s;
+    }
+
+    .btn-outline-emerald:hover {
+      background: var(--emerald-50);
+      border-color: var(--emerald-500);
+      color: var(--emerald-900);
+      transform: translateY(-2px);
+    }
+
+    .badge-emerald {
+      background: var(--emerald-100);
+      color: var(--emerald-800);
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Cards paramètres */
+    .settings-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      transition: 0.2s;
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-card:hover {
+      border-color: var(--emerald-300);
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+    }
+
+    .settings-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--emerald-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--emerald-700);
+      font-size: 1.2rem;
+    }
+
+    /* Switch toggle */
+    .form-switch .form-check-input {
+      width: 3rem;
+      height: 1.5rem;
+      cursor: pointer;
+    }
+
+    .form-switch .form-check-input:checked {
+      background-color: var(--emerald-600);
+      border-color: var(--emerald-600);
+    }
+
+    /* Nav tabs paramètres */
+    .settings-nav {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-nav .nav-link {
+      color: #475569;
+      border-radius: 10px;
+      padding: 0.8rem 1.2rem;
+      font-weight: 500;
+    }
+
+    .settings-nav .nav-link.active {
+      background: var(--emerald-600);
+      color: white;
+    }
+
+    .settings-nav .nav-link i {
+      margin-right: 0.5rem;
+    }
+
+    /* Pour éviter tout soulignement */
+    a, a:hover, a:focus, a:active, button {
+      text-decoration: none !important;
+      outline: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Admin -->
+<nav class="navbar">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#">
+      <i class="bi bi-gem"></i>
+      <span>DropManage Admin</span>
+    </a>
+    <div class="d-flex gap-3">
+      <span class="badge-emerald"><i class="bi bi-gear me-1"></i>Paramètres</span>
+      <a href="../index.html" class="btn btn-outline-emerald btn-sm"><i class="bi bi-box-arrow-right"></i> Retour site</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-2 p-0 sidebar">
+      <div class="py-4">
+        <a href="tableau_bord.html" class="nav-link">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="G_catalogue.html" class="nav-link">
+          <i class="bi bi-box-seam"></i> Catalogue
+        </a>
+        <a href="suivi_commande.html" class="nav-link">
+          <i class="bi bi-truck"></i> Commandes
+        </a>
+        <a href="boutique.html" class="nav-link">
+          <i class="bi bi-shop"></i> Boutique
+        </a>
+        <a href="G_fournisseur.html" class="nav-link">
+          <i class="bi bi-people"></i> Fournisseurs
+        </a>
+        <a href="importation.html" class="nav-link">
+          <i class="bi bi-cloud-upload"></i> Importation
+        </a>
+        <a href="analyse_rapport.html" class="nav-link">
+          <i class="bi bi-graph-up"></i> Rapports
+        </a>
+        <a href="#" class="nav-link active">
+          <i class="bi bi-gear"></i> Paramètres
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-10 p-4">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 class="fw-bold mb-1">Paramètres</h4>
+          <p class="text-secondary">Configurez votre plateforme et vos préférences</p>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="#" class="btn btn-outline-emerald">
+            <i class="bi bi-arrow-counterclockwise"></i> Réinitialiser
+          </a>
+          <a href="#" class="btn btn-emerald">
+            <i class="bi bi-check-lg"></i> Sauvegarder
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation paramètres -->
+      <div class="settings-nav">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="pill" href="#general">
+              <i class="bi bi-sliders2"></i> Général
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#pricing">
+              <i class="bi bi-currency-exchange"></i> Tarification
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#automation">
+              <i class="bi bi-robot"></i> Automatisation
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#notifications">
+              <i class="bi bi-bell"></i> Notifications
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#payment">
+              <i class="bi bi-credit-card"></i> Paiements
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#shipping">
+              <i class="bi bi-truck"></i> Livraison
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#team">
+              <i class="bi bi-people"></i> Équipe
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contenu des paramètres -->
+      <div class="tab-content">
+        <!-- Paramètres Généraux -->
+        <div class="tab-pane fade show active" id="general">
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-shop"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Informations de la boutique</h6>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Nom de la boutique</label>
+                <input type="text" class="form-control" value="DropManage Shop">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Email de contact</label>
+                <input type="email" class="form-control" value="contact@dropmanage.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Téléphone</label>
+                <input type="tel" class="form-control" value="+225 07 89 45 67 89">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Devise</label>
+                <select class="form-select">
+                  <option selected>Franc CFA (FCFA)</option>
+                  <option>Euro (€)</option>
+                  <option>Dollar ($)</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-medium">Adresse</label>
+                <input type="text" class="form-control" value="Abidjan, Cocody, Côte d'Ivoire">
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-translate"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Langue et région</h6>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Langue par défaut</label>
+                <select class="form-select">
+                  <option selected>Français</option>
+                  <option>Anglais</option>
+                  <option>Néerlandais</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Fuseau horaire</label>
+                <select class="form-select">
+                  <option selected>Afrique/Abidjan (GMT+0)</option>
+                  <option>Europe/Paris (GMT+1)</option>
+                  <option>America/New_York (GMT-5)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarification -->
+        <div class="tab-pane fade" id="pricing">
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-percent"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Règles de marge automatique</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="autoMargin" checked>
+                <label class="form-check-label" for="autoMargin">Activer</label>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label fw-medium">Marge par défaut</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="30">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-medium">Marge minimum</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="15">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-medium">Marge maximum</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="50">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-3">
+
+            <h6 class="fw-bold mb-3">Règles par catégorie</h6>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Audio</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="35">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Montres</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="40">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Photo</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="25">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Arrondi des prix</h6>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Type d'arrondi</label>
+                <select class="form-select">
+                  <option selected>Arrondi supérieur (99 900 FCFA)</option>
+                  <option>Arrondi inférieur (99 500 FCFA)</option>
+                  <option>Pas d'arrondi</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Arrondir aux</label>
+                <select class="form-select">
+                  <option selected>100 FCFA près</option>
+                  <option>500 FCFA près</option>
+                  <option>1 000 FCFA près</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automatisation -->
+        <div class="tab-pane fade" id="automation">
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Synchronisation des stocks</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="stockSync" checked>
+                <label class="form-check-label" for="stockSync">Activer</label>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Fréquence de synchronisation</label>
+                <select class="form-select">
+                  <option>Toutes les 30 minutes</option>
+                  <option selected>Toutes les heures</option>
+                  <option>Toutes les 3 heures</option>
+                  <option>Toutes les 6 heures</option>
+                  <option>Quotidienne</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Seuil de stock bas</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="5">
+                  <span class="input-group-text">unités</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-lightning"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Pricing automatique</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="autoPricing" checked>
+                <label class="form-check-label" for="autoPricing">Activer</label>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Ajustement des prix</label>
+                <select class="form-select">
+                  <option selected>Automatique selon fournisseur</option>
+                  <option>Manuel (alerte seulement)</option>
+                  <option>Désactivé</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Marge minimum à préserver</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" value="15">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-cart-check"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Passage de commande automatique</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="autoOrder" checked>
+                <label class="form-check-label" for="autoOrder">Activer</label>
+              </div>
+            </div>
+            
+            <p class="text-secondary small">Les commandes seront automatiquement passées chez le fournisseur dès réception du paiement client.</p>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-truck"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Tracking automatique</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="autoTracking" checked>
+                <label class="form-check-label" for="autoTracking">Activer</label>
+              </div>
+            </div>
+            
+            <p class="text-secondary small">Les numéros de suivi sont automatiquement récupérés et envoyés aux clients.</p>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="tab-pane fade" id="notifications">
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Notifications email</h6>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="notifNewOrder" checked>
+                  <label class="form-check-label" for="notifNewOrder">
+                    Nouvelle commande
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="notifPayment" checked>
+                  <label class="form-check-label" for="notifPayment">
+                    Paiement reçu
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="notifStock" checked>
+                  <label class="form-check-label" for="notifStock">
+                    Stock faible
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="notifPrice">
+                  <label class="form-check-label" for="notifPrice">
+                    Changement de prix fournisseur
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="notifSync" checked>
+                  <label class="form-check-label" for="notifSync">
+                    Synchronisation terminée
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-3">
+
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Email de notification</label>
+                <input type="email" class="form-control" value="admin@dropmanage.com">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paiements -->
+        <div class="tab-pane fade" id="payment">
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-stripe"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Stripe</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="stripe" checked>
+                <label class="form-check-label" for="stripe">Actif</label>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Clé publique</label>
+                <input type="text" class="form-control" value="pk_live_4a2f8d3e1b7c9a5f">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Clé secrète</label>
+                <input type="password" class="form-control" value="sk_live_8b3d2e4f5a6c7b8d">
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-paypal"></i>
+                </div>
+                <h6 class="fw-bold mb-0">PayPal</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="paypal" checked>
+                <label class="form-check-label" for="paypal">Actif</label>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Email PayPal</label>
+                <input type="email" class="form-control" value="payment@dropmanage.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Client ID</label>
+                <input type="text" class="form-control" value="Ae2f8d3e1b7c9a5f">
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-credit-card"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Orange Money / Mobile Money</h6>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="mobileMoney" checked>
+                <label class="form-check-label" for="mobileMoney">Actif</label>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Numéro de compte</label>
+                <input type="text" class="form-control" value="+225 07 89 45 67 89">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Opérateur</label>
+                <select class="form-select">
+                  <option selected>Orange Money</option>
+                  <option>MTN Mobile Money</option>
+                  <option>Moov Money</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Livraison -->
+        <div class="tab-pane fade" id="shipping">
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-truck"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Méthodes de livraison</h6>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="shipStandard" checked>
+                  <label class="form-check-label" for="shipStandard">
+                    Livraison standard (3-5 jours) - <span class="fw-bold">3 500 FCFA</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="shipExpress" checked>
+                  <label class="form-check-label" for="shipExpress">
+                    Livraison express (1-2 jours) - <span class="fw-bold">7 500 FCFA</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="shipFree">
+                  <label class="form-check-label" for="shipFree">
+                    Livraison gratuite (pour commandes > 150 000 FCFA)
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-geo-alt"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Zones de livraison</h6>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Pays de livraison</label>
+                <select class="form-select" multiple size="4">
+                  <option selected>Côte d'Ivoire</option>
+                  <option selected>Sénégal</option>
+                  <option selected>Mali</option>
+                  <option>Burkina Faso</option>
+                  <option>France</option>
+                </select>
+                <small class="text-secondary">Maintenez Ctrl pour sélectionner plusieurs pays</small>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Délais par pays</label>
+                <div class="mb-2">
+                  <div class="d-flex justify-content-between">
+                    <span>Côte d'Ivoire</span>
+                    <span class="fw-bold">2-3 jours</span>
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="d-flex justify-content-between">
+                    <span>Sénégal</span>
+                    <span class="fw-bold">3-5 jours</span>
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="d-flex justify-content-between">
+                    <span>Mali</span>
+                    <span class="fw-bold">4-6 jours</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Équipe -->
+        <div class="tab-pane fade" id="team">
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-person-badge"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Gestion des utilisateurs</h6>
+              </div>
+              <a href="#" class="btn btn-emerald btn-sm">
+                <i class="bi bi-plus-lg"></i> Ajouter
+              </a>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Utilisateur</th>
+                    <th>Rôle</th>
+                    <th>Email</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=059669&color=fff" width="32" height="32" class="rounded-circle">
+                        <span class="fw-bold">Admin Principal</span>
+                      </div>
+                    </td>
+                    <td>Super Admin</td>
+                    <td>admin@dropmanage.com</td>
+                    <td><span class="badge-emerald">Actif</span></td>
+                    <td>
+                      <a href="#" class="btn btn-outline-emerald btn-sm"><i class="bi bi-pencil"></i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <img src="https://ui-avatars.com/api/?name=Marie&background=10b981&color=fff" width="32" height="32" class="rounded-circle">
+                        <span class="fw-bold">Marie Martin</span>
+                      </div>
+                    </td>
+                    <td>Gestionnaire</td>
+                    <td>marie@dropmanage.com</td>
+                    <td><span class="badge-emerald">Actif</span></td>
+                    <td>
+                      <a href="#" class="btn btn-outline-emerald btn-sm"><i class="bi bi-pencil"></i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <img src="https://ui-avatars.com/api/?name=Jean&background=6ee7b7&color=fff" width="32" height="32" class="rounded-circle">
+                        <span class="fw-bold">Jean Dupont</span>
+                      </div>
+                    </td>
+                    <td>Commercial</td>
+                    <td>jean@dropmanage.com</td>
+                    <td><span class="badge-emerald">Actif</span></td>
+                    <td>
+                      <a href="#" class="btn btn-outline-emerald btn-sm"><i class="bi bi-pencil"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="settings-icon">
+                  <i class="bi bi-shield-lock"></i>
+                </div>
+                <h6 class="fw-bold mb-0">Permissions et rôles</h6>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="border rounded-3 p-3">
+                  <h6 class="fw-bold">Super Admin</h6>
+                  <p class="small text-secondary">Accès complet à toutes les fonctionnalités</p>
+                  <span class="badge-emerald">1 utilisateur</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="border rounded-3 p-3">
+                  <h6 class="fw-bold">Gestionnaire</h6>
+                  <p class="small text-secondary">Gestion des produits et commandes</p>
+                  <span class="badge-emerald">2 utilisateurs</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="border rounded-3 p-3">
+                  <h6 class="fw-bold">Commercial</h6>
+                  <p class="small text-secondary">Accès en lecture seule</p>
+                  <span class="badge-emerald">1 utilisateur</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boutons de sauvegarde (fixes en bas) -->
+      <div class="position-fixed bottom-0 end-0 m-4" style="z-index: 1000;">
+        <div class="bg-white rounded-4 shadow-lg p-3 border border-emerald-200">
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-outline-emerald">
+              <i class="bi bi-x-lg"></i> Annuler
+            </a>
+            <a href="#" class="btn btn-emerald">
+              <i class="bi bi-check-lg"></i> Sauvegarder
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Forcer l'absence de soulignement sur tous les liens
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+      link.style.textDecoration = 'none';
+    });
+  });
+</script>
+</body>
+</html>
