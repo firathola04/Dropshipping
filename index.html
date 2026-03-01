@@ -28,6 +28,7 @@
       font-family: 'Inter', sans-serif;
       background-color: #ffffff;
       color: #1e293b;
+      overflow-x: hidden;
     }
 
     /* Navigation */
@@ -38,7 +39,6 @@
       padding: 1rem 0;
     }
 
-    /* CORRECTION: Plus de -webkit-background-clip:text qui cause le soulignement jaune */
     .navbar-brand {
       font-weight: 800;
       font-size: 1.8rem;
@@ -352,8 +352,184 @@
       outline: none !important;
     }
 
-    @media (max-width: 1000px) {
-      .product-grid { grid-template-columns: repeat(2, 1fr); }
+    /* RESPONSIVITÉ AJOUTÉE - Sans modifier le code existant */
+    @media (max-width: 1200px) {
+      .hero-title {
+        font-size: 3.2rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 2.8rem;
+      }
+      .navbar-nav {
+        padding: 1rem 0;
+      }
+      .nav-link {
+        margin: 0.5rem 0;
+      }
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+      }
+      .hero-title {
+        font-size: 2.4rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .kpi-number {
+        font-size: 2rem;
+      }
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      .product-img-wrapper {
+        height: 200px;
+      }
+      .feature-card {
+        padding: 1.5rem;
+      }
+      .footer {
+        text-align: center;
+      }
+      .footer .social-icon {
+        margin: 0 0.4rem;
+      }
+      .d-flex.gap-3 {
+        flex-wrap: wrap;
+        gap: 1rem !important;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .navbar-brand {
+        font-size: 1.4rem;
+      }
+      .hero-title {
+        font-size: 2rem;
+      }
+      .badge-emerald {
+        font-size: 0.9rem;
+        padding: 0.4rem 1rem;
+      }
+      .btn-emerald, .btn-outline-emerald {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
+      }
+      .kpi-card {
+        padding: 1.2rem;
+      }
+      .kpi-number {
+        font-size: 1.8rem;
+      }
+      .product-grid {
+        grid-template-columns: 1fr;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+      .product-img-wrapper {
+        height: 220px;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+      .section-sub {
+        font-size: 1rem;
+      }
+      .feature-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+      .row.g-4 > [class*="col-"] {
+        padding: 0 12px;
+      }
+      .footer h5 {
+        margin-top: 1.5rem;
+      }
+      .footer .row > div:first-child h5 {
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      .d-flex.gap-4 {
+        flex-direction: column;
+        gap: 0.5rem !important;
+      }
+      .app-btn {
+        display: block;
+        margin-right: 0;
+        text-align: center;
+      }
+    }
+
+    /* Ajustements pour les très petits écrans */
+    @media (max-width: 360px) {
+      .container {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      .product-grid {
+        max-width: 280px;
+      }
+    }
+
+    /* Ajustements pour l'image hero section */
+    @media (max-width: 768px) {
+      .hero-section .col-lg-6:last-child {
+        margin-top: 2rem;
+      }
+      .hero-section .col-6.mt-5 {
+        margin-top: 0 !important;
+      }
+    }
+
+    /* Amélioration de l'affichage des icônes sociales */
+    @media (max-width: 576px) {
+      .footer .d-flex.flex-wrap {
+        justify-content: center;
+      }
+    }
+
+    /* Ajustement du module automatisation */
+    @media (max-width: 768px) {
+      section .row.align-items-center.p-5 {
+        padding: 2rem !important;
+      }
+      section .col-md-4.text-center {
+        margin-top: 2rem;
+      }
+      section .bi-arrow-repeat {
+        font-size: 4rem !important;
+      }
+    }
+
+    /* Correction du dropdown menu en mobile */
+    @media (max-width: 992px) {
+      .dropdown-menu {
+        border: none;
+        background: transparent;
+        padding-left: 1rem;
+      }
+      .dropdown-item {
+        color: #1e2f3a !important;
+      }
+      .dropdown-item:hover {
+        background: var(--emerald-50);
+      }
     }
   </style>
 </head>
